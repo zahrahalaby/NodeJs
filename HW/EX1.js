@@ -1,3 +1,4 @@
+// developer - zahra halabi
 
 // Check if a number is divisible by 2, 3, and 5 
 // return the count of how many of these conditions are true
