@@ -1,3 +1,12 @@
+/**
+ * Programmer: Zahra halabi
+ *
+ * Description:
+ * Reads 10 input text files, copies an increasing number of lines from each file (1 from the first file, 2 from the second, ..., 10 from the tenth), 
+ * combines the copied lines, and saves them into output.txt. The program includes error handling for missing files, missing directories, 
+ * and files that do not contain the required number of lines.
+ */
+
 const fs = require('fs');
 const path = require('path');
 
