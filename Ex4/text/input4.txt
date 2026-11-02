@@ -1,4 +1,0 @@
-Line 1 from file 4
-Line 2 from file 4
-Line 3 from file 4
-Line 4 from file 4
