@@ -1,5 +1,14 @@
 // zahra halabi
 
+/*
+ *  * Description: Creates 3 text files, each containing a random number of lines (1–25).
+ * Reads the files and merges their contents in rounds: 1 line from each
+ * file, then the next 2 lines, then the next 3, and so on.
+ * Files with no remaining lines are skipped.
+ * Prints the merged content and saves it to output.txt.
+ * The text directory must already exist.
+ */
+
 const fs = require('fs');
 const path = require('path');
 
