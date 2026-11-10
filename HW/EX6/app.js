@@ -1,10 +1,18 @@
 // zahra halabi
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const dirPath = path.join(__dirname, "text");
+// Directory containing the input files
+const dirPath = path.join(__dirname, 'text');
 
+// Check whether the directory exists
+if (!fs.existsSync(dirPath)) {
+    console.log(`Directory not found: ${dirPath}`);
+    process.exit(1);
+}
+
+// Array containing the names of the input files
 const fileNames = [];
 
 // Create 3 files, each containing between 1 and 25 lines.
@@ -27,41 +35,48 @@ for (let fileNumber = 1; fileNumber <= 3; fileNumber++) {
   fs.writeFileSync(path.join(dirPath, fileName), fileContent);
 }
 
-// Read each file and store its lines in a separate array.
-const fileLines = [];
 
-for (let i = 0; i < fileNames.length; i++) {
-  const fileContent = fs.readFileSync(
-    path.join(dirPath, fileNames[i]),
-    "utf-8"
-  );
 
-  fileLines.push(fileContent.split(/\r?\n/));
-}
+try {
+    const allLines = [];
+    let maxLines = 0;
+    let textOut='';
 
-let linesPerRound = 1;
-let startIndex = 0;
-let resultContent = "";
+    for (let i = 0; i < fileNames.length; i++)  {
+        const filePath = path.join(dirPath, fileNames[i]);
+        const textIn = fs.readFileSync(filePath, 'utf8');
+        const lines = textIn.split(/\r?\n/);
 
-const maxLineCount = Math.max(...fileLines.map((lines) => lines.length));
+        if (lines[lines.length - 1] === '') {
+            lines.pop();
+        }
 
-// Take 1 line from each file, then 2, then 3, and so on.
-// Stop when all lines in the longest file have been processed.
-while (startIndex < maxLineCount) {
-  for (let fileIndex = 0; fileIndex < fileLines.length; fileIndex++) {
-    for (let offset = 0; offset < linesPerRound; offset++) {
-      const lineIndex = startIndex + offset;
-
-      // Skip indexes beyond the end of the current file.
-      if (lineIndex < fileLines[fileIndex].length) {
-        resultContent += `${fileLines[fileIndex][lineIndex]}\n`;
-      }
+        allLines.push(lines);
+        maxLines = Math.max(maxLines, lines.length);
     }
-  }
 
-  // Move to the next unread line and increase the next round's size.
-  startIndex += linesPerRound;
-  linesPerRound++;
+    let start = 0;
+    let count = 1;
+
+    while (start < maxLines) {
+        for (let i = 0; i < allLines.length; i++) {
+            const lines = allLines[i];
+            for (let j = start; j < start + count && j < lines.length; j++) {
+                textOut += lines[j] + '\n';
+            }
+        }
+
+        start += count;
+        count++;
+    }
+
+    console.log(textOut);
+    fs.writeFileSync(path.join(dirPath, 'output.txt'), textOut, 'utf8');
+
+
+} catch (error) {
+
+    // Handle all errors
+    console.log('Error: ' + error.message);
+
 }
-
-fs.writeFileSync(path.join(dirPath, "result.txt"), resultContent);
