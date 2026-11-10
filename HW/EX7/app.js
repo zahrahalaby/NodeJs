@@ -1,5 +1,13 @@
 // zahra halabi
 
+/*
+ * Description: Reads user data from users.json in the data directory.
+ * Counts the users and collects their names.
+ * Saves the user count to user_count.txt and the names to user_names.txt,
+ * with each name on a separate line.
+ * Displays an error message if reading, parsing, or writing fails.
+ */
+
 const fs = require('fs');
 const path = require('path');
 
